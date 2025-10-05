@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import type { Todo } from "../model/Todo";
-import { FaCheck, FaPen, FaTrash } from "react-icons/fa";
+import { FaCheck, FaTrash } from "react-icons/fa";
 import dayjs from "dayjs";
 import type { Dispatch } from "react";
 import type { AppAction } from "../store/AppState";
-import { markTodo, removeTodo, viewTodo } from "../utils/TodoAction";
+import { markTodo, removeTodo } from "../utils/TodoAction";
 
 type TodoItemProps = {
   todo: Todo;
@@ -53,7 +53,7 @@ const TodoItem = ({ todo, dispatch }: TodoItemProps) => {
         </p>
 
         <div className="flex justify-start items-center gap-3 mt-3">
-          <button
+          {/* <button
             disabled={todo.completed}
             className={`w-3/12 py-4 flex justify-center items-center bg-blue-500 text-white rounded transition-colors duration-200 ${
               todo.completed
@@ -63,9 +63,9 @@ const TodoItem = ({ todo, dispatch }: TodoItemProps) => {
             onClick={() => viewTodo(dispatch, todo.id)}
           >
             <FaPen />
-          </button>
+          </button> */}
           <button
-            className="w-7/12 py-4 flex justify-center items-center bg-red-500 text-white rounded hover:bg-red-600 transition-colors duration-200 cursor-pointer active:scale-95"
+            className="w-3/12 py-4 flex justify-center items-center bg-red-500 text-white rounded hover:bg-red-600 transition-colors duration-200 cursor-pointer active:scale-95"
             onClick={() => removeTodo(dispatch, todo.id)}
           >
             <FaTrash />
