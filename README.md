@@ -1,69 +1,56 @@
-# React + TypeScript + Vite
+# 📝 React Taskify
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, minimal, and responsive **To-Do List App** built with **React**, **TypeScript**, and **Tailwind CSS**.  
+Easily add, update, delete, and mark tasks as completed — all managed through sleek tab-based navigation.  
+Designed for productivity lovers who appreciate clean UI and fast performance ⚡
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- ✨ Add new tasks with ease  
+- 🔁 Update existing tasks  
+- ❌ Delete tasks you no longer need  
+- ✅ Mark tasks as completed  
+- 🧭 Switch between tabs to view active and completed tasks  
+- 💅 Built with **React + TypeScript + Tailwind CSS** for a modern workflow  
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠️ Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- ⚛️ **React + Vite** — blazing fast development setup  
+- 💻 **TypeScript** — strong typing for cleaner, safer code  
+- 🎨 **Tailwind CSS** — utility-first styling that just works  
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 📸 Screenshot
+
+![Taskify Screenshot](./screenshot.png)
+
+
+## 🧩 Getting Started
+
+Ready to get your task life together? Let’s go 👇  
+
+
+```bash
+
+1️⃣ Clone the repository
+git clone https://github.com/abhishek-kumar612/React-taskify.git
+
+2️⃣ Navigate into the project
+cd React-taskify
+
+3️⃣ Install dependencies
+npm install
+
+4️⃣ Run the development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Now open your browser and head over to:
+👉 http://localhost:5173
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Have fun and enjoy coding! 🎉
