@@ -16,13 +16,18 @@ const Home = () => {
   return (
     <>
       {/* Toaster */}
-      <Toaster position="top-center" reverseOrder={false} />
+      <div style={{ zIndex: 99999999999 }}>
+        <Toaster position="top-center" reverseOrder={false} />
+      </div>
 
       {/* Update Popup */}
       <UpdatePopup
+        state={state}
+        dispatch={dispatch}
         id={state.selectedTodo?.id ?? ""}
         title={state.selectedTodo?.text ?? ""}
         description={state.selectedTodo?.task ?? ""}
+        btnText="UPDATE TASK"
         show={state.updatePopupOpen}
         onClose={() => dispatch({ type: "updatePopupOpen", payload: false })}
       />
@@ -71,7 +76,7 @@ const Home = () => {
               type="submit"
               className="bg-purple-500 mt-2 flex justify-center items-center gap-2 cursor-pointer shadow-lg text-white rounded-lg px-6 py-3 hover:bg-purple-600 duration-200 w-full transition active:scale-95"
             >
-              ADD
+              ADD TASK
               <FaPlusSquare />
             </button>
           </motion.form>

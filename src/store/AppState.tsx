@@ -9,6 +9,7 @@ export interface AppState {
   selectedTodo: Todo | null;
   selectedTab: number[];
   updatePopupOpen: boolean;
+  showUpdatePopupError: string;
 }
 
 const appStates: AppState = {
@@ -20,6 +21,7 @@ const appStates: AppState = {
   selectedTodo: null,
   selectedTab: [0],
   updatePopupOpen: false,
+  showUpdatePopupError: "",
 };
 
 export type AppAction =
@@ -38,6 +40,7 @@ export type AppAction =
   | { type: "todosClear" }
   | { type: "selectedTab"; payload: number }
   | { type: "updatePopupOpen"; payload: boolean }
+  | { type: "showUpdatePopupError"; payload: string }
   | { type: "setTodos"; payload: Todo[] };
 
 const appReducer = (state: AppState, action: AppAction) => {
@@ -91,6 +94,8 @@ const appReducer = (state: AppState, action: AppAction) => {
       return { ...state, selectedTab: [action.payload] };
     case "updatePopupOpen":
       return { ...state, updatePopupOpen: action.payload };
+    case "showUpdatePopupError":
+      return { ...state, showUpdatePopupError: action.payload };
     case "todosClear":
       return { ...state, todos: [] };
     default:

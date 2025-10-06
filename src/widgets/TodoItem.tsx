@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
 import type { Todo } from "../model/Todo";
-import { FaCheck, FaTrash } from "react-icons/fa";
+import { FaCheck, FaPen, FaTrash } from "react-icons/fa";
 import dayjs from "dayjs";
 import type { Dispatch } from "react";
 import type { AppAction } from "../store/AppState";
-import { markTodo, removeTodo } from "../utils/TodoAction";
+import { markTodo, viewTodo } from "../utils/TodoAction";
+import { confirmPopup } from "./ConfirmPopup";
 
 type TodoItemProps = {
   todo: Todo;
@@ -12,6 +13,10 @@ type TodoItemProps = {
 };
 
 const TodoItem = ({ todo, dispatch }: TodoItemProps) => {
+  const removeTodoFun = (dispatch: Dispatch<AppAction>, id: string) => {
+    confirmPopup(dispatch, id);
+  };
+
   return (
     <motion.div
       style={{ background: "#f5f6fa" }}
@@ -45,30 +50,36 @@ const TodoItem = ({ todo, dispatch }: TodoItemProps) => {
           {todo.task}{" "}
         </p>
         <p
-          className={`font-sans font-bold text-sm sm:text-base ${
+          className={`font-mono font-bold text-sm sm:text-base ${
             todo.completed ? "line-through text-gray-400" : "text-black"
           }`}
         >
-          {dayjs(todo.date).format("hh:mm A, D MMM YYYY")}
+          {`${dayjs(todo.date).format("hh:mm A, D MMM YYYY")}`}
         </p>
 
         <div className="flex justify-start items-center gap-3 mt-3">
-          {/* <button
+          <button
             disabled={todo.completed}
-            className={`w-3/12 py-4 flex justify-center items-center bg-blue-500 text-white rounded transition-colors duration-200 ${
+            className={`w-3/12 relative py-4 flex justify-center items-center bg-blue-500 text-white rounded transition-colors duration-200 ${
               todo.completed
                 ? "cursor-default opacity-50"
-                : "cursor-pointer hover:bg-blue-600 active:scale-95"
+                : "cursor-pointer group hover:bg-blue-600 active:scale-95"
             }`}
             onClick={() => viewTodo(dispatch, todo.id)}
           >
             <FaPen />
-          </button> */}
+            <span className="absolute bottom-full mb-2 px-4 py-2 text-sm text-white bg-gray-800 rounded scale-0 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition duration-200 pointer-events-none whitespace-nowrap">
+              Update task
+            </span>
+          </button>
           <button
-            className="w-3/12 py-4 flex justify-center items-center bg-red-500 text-white rounded hover:bg-red-600 transition-colors duration-200 cursor-pointer active:scale-95"
-            onClick={() => removeTodo(dispatch, todo.id)}
+            className="w-3/12 relative group py-4 flex justify-center items-center bg-red-500 text-white rounded hover:bg-red-600 transition-colors duration-200 cursor-pointer active:scale-95"
+            onClick={() => removeTodoFun(dispatch, todo.id)}
           >
             <FaTrash />
+            <span className="absolute bottom-full mb-2 px-4 py-2 text-sm text-white bg-gray-800 rounded scale-0 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition duration-200 pointer-events-none whitespace-nowrap">
+              Delete task
+            </span>
           </button>
         </div>
       </div>
@@ -76,14 +87,17 @@ const TodoItem = ({ todo, dispatch }: TodoItemProps) => {
       <div className="flex justify-between items-center gap-2">
         <button
           disabled={todo.completed}
-          className={`w-8 h-8 flex justify-center items-center bg-green-500 text-white rounded transition-colors duration-200 ${
+          className={`w-8 h-8 relative flex justify-center items-center bg-green-500 text-white rounded transition-colors duration-200 ${
             todo.completed
               ? "cursor-default opacity-50"
-              : "cursor-pointer hover:bg-green-600 active:scale-95"
+              : "cursor-pointer group hover:bg-green-600 active:scale-95"
           }`}
           onClick={() => markTodo(dispatch, todo)}
         >
           <FaCheck />
+          <span className="absolute bottom-full mb-2 px-4 py-2 text-sm text-white bg-gray-800 rounded scale-0 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition duration-200 pointer-events-none whitespace-nowrap">
+            Mark as completed
+          </span>
         </button>
       </div>
     </motion.div>
