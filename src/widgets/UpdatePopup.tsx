@@ -15,7 +15,7 @@ type UpdatePopupProps = {
   onClose: () => void;
 };
 
-const UpdatePopup: React.FC<UpdatePopupProps> = ({
+const UpdatePopup = ({
   state,
   dispatch,
   id,
@@ -24,7 +24,7 @@ const UpdatePopup: React.FC<UpdatePopupProps> = ({
   btnText,
   show,
   onClose,
-}) => {
+}: UpdatePopupProps) => {
   useEffect(() => {
     if (show) {
       dispatch({ type: "updatedTitleInput", payload: title });
@@ -66,7 +66,7 @@ const UpdatePopup: React.FC<UpdatePopupProps> = ({
         >
           <form
             onSubmit={(e) => updateTodoForm(e)}
-            className="flex flex-col w-[90%] sm:w-[80%] md:w-[60%] lg:w-[40%] max-w-lg  shadow-lg rounded-lg gap-3 px-5 py-6 md:py-10 mt-5 z-50 bg-white animate__animated animate__jackInTheBox animate__faster"
+            className="flex flex-col w-[90%] sm:w-[80%] md:w-[60%] lg:w-[40%] max-w-lg shadow-lg rounded-lg gap-3 px-5 py-6 md:py-10 mt-5 z-50 bg-white dark:bg-gray-800 animate__animated animate__jackInTheBox animate__faster"
             onClick={(e) => {
               e.stopPropagation();
             }}
@@ -80,7 +80,7 @@ const UpdatePopup: React.FC<UpdatePopupProps> = ({
                   payload: e.target.value,
                 })
               }
-              className="border-2 border-gray-300  rounded-lg p-3 outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-200"
+              className="border-2 border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-200 dark:bg-gray-900 dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
             />
             <textarea
               placeholder="Task"
@@ -92,18 +92,18 @@ const UpdatePopup: React.FC<UpdatePopupProps> = ({
                   payload: e.target.value,
                 })
               }
-              className="border-2 border-gray-300  rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-200"
+              className="border-2 border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-200 dark:bg-gray-900 dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
             />
 
             {state.showUpdatePopupError.trim() && (
-              <h1 className="my-2 text-red-600 bg-red-50 border border-red-300 rounded-md px-3 py-2 text-sm sm:text-base font-medium flex items-center gap-2">
+              <h1 className="my-2 text-red-600 bg-red-50 border border-red-300 rounded-md px-3 py-2 text-sm sm:text-base font-medium flex items-center gap-2 dark:bg-red-900 dark:border-red-700 dark:text-red-400">
                 <span>{state.showUpdatePopupError}</span>
               </h1>
             )}
 
             <button
               type="submit"
-              className="bg-purple-500 flex justify-center items-center gap-2 cursor-pointer text-white rounded-lg px-6 py-3 hover:bg-purple-600 duration-200 w-full transition active:scale-95"
+              className="bg-purple-500 flex justify-center items-center gap-2 cursor-pointer text-white rounded-lg px-6 py-3 hover:bg-purple-600 duration-200 w-full transition active:scale-95 dark:bg-purple-600 dark:hover:bg-purple-700"
             >
               {btnText}
               <FaSave />

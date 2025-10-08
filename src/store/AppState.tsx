@@ -1,6 +1,7 @@
 import type { Todo } from "../model/Todo";
 
 export interface AppState {
+  themeToggle: boolean;
   titleInput: string;
   taskInput: string;
   updatedTitleInput: string;
@@ -13,6 +14,7 @@ export interface AppState {
 }
 
 const appStates: AppState = {
+  themeToggle: false,
   titleInput: "",
   taskInput: "",
   updatedTitleInput: "",
@@ -25,6 +27,7 @@ const appStates: AppState = {
 };
 
 export type AppAction =
+  | { type: "themeToggle" }
   | { type: "titleInput"; payload: string }
   | { type: "taskInput"; payload: string }
   | { type: "updatedTitleInput"; payload: string }
@@ -45,6 +48,8 @@ export type AppAction =
 
 const appReducer = (state: AppState, action: AppAction) => {
   switch (action.type) {
+    case "themeToggle":
+      return { ...state, themeToggle: !state.themeToggle };
     case "titleInput":
       return { ...state, titleInput: action.payload };
     case "taskInput":

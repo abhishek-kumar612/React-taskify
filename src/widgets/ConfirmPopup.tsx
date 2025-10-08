@@ -3,7 +3,11 @@ import Swal from "sweetalert2";
 import type { AppAction } from "../store/AppState";
 import { removeTodo } from "../utils/TodoAction";
 
-const confirmPopup = (dispatch: Dispatch<AppAction>, id: string) => {
+const confirmPopup = (
+  theme: string,
+  dispatch: Dispatch<AppAction>,
+  id: string
+) => {
   Swal.fire({
     title: "Delete Task?",
     text: "Once deleted, there's no Ctrl+Z! Are you sure you want to nuke this task?",
@@ -13,6 +17,7 @@ const confirmPopup = (dispatch: Dispatch<AppAction>, id: string) => {
     cancelButtonColor: "#eb4d4b",
     confirmButtonText: "Yep, delete it",
     cancelButtonText: "Nah, keep it",
+    theme: theme === "dark" ? "dark" : "light",
     showClass: {
       popup: `
       animate__animated
@@ -24,7 +29,7 @@ const confirmPopup = (dispatch: Dispatch<AppAction>, id: string) => {
       popup: `
       animate__animated
       animate__hinge
-      animate__faster
+      animate__fast
     `,
     },
   }).then((result) => {

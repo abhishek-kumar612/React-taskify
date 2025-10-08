@@ -1,4 +1,6 @@
 # 📝 React Taskify
+![Taskify Screenshot](./screenshot.png)
+
 
 A modern, minimal, and responsive **To-Do List App** built with **React**, **TypeScript**, and **Tailwind CSS**.  
 Easily add, update, delete, and mark tasks as completed — all managed through sleek tab-based navigation.  
@@ -24,10 +26,6 @@ Designed for productivity lovers who appreciate clean UI and fast performance �
 - 🎨 **Tailwind CSS** — utility-first styling that just works  
 
 ---
-
-## 📸 Screenshot
-
-![Taskify Screenshot](./screenshot.png)
 
 
 ## 🧩 Getting Started
