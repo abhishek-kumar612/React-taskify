@@ -2,9 +2,9 @@
 ![Taskify Screenshot](./screenshot.png)
 
 
-A modern, minimal, and responsive **To-Do List App** built with **React**, **TypeScript**, and **Tailwind CSS**.  
-Easily add, update, delete, and mark tasks as completed — all managed through sleek tab-based navigation.  
-Designed for productivity lovers who appreciate clean UI and fast performance ⚡
+A modern, minimal, and responsive To-Do List App built with React, TypeScript, and Tailwind CSS.
+Easily add, update, delete, and mark tasks as completed — all managed through sleek tab-based navigation.
+Your tasks are auto-saved in LocalStorage, so they persist even after page refresh.
 
 ---
 
@@ -15,6 +15,8 @@ Designed for productivity lovers who appreciate clean UI and fast performance �
 - ❌ Delete tasks you no longer need  
 - ✅ Mark tasks as completed  
 - 🧭 Switch between tabs to view active and completed tasks  
+- 💾 Persistent storage — tasks are saved in browser LocalStorage  
+- 🌗 Dark mode ready
 - 💅 Built with **React + TypeScript + Tailwind CSS** for a modern workflow  
 
 ---

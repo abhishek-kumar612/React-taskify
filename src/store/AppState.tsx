@@ -1,7 +1,13 @@
 import type { Todo } from "../model/Todo";
+import {
+  loadTodos,
+  saveTodos,
+  clearTodos,
+  saveSelectedTab,
+  loadSelectedTab,
+} from "../utils/TodoStorage";
 
 export interface AppState {
-  themeToggle: boolean;
   titleInput: string;
   taskInput: string;
   updatedTitleInput: string;
@@ -14,20 +20,18 @@ export interface AppState {
 }
 
 const appStates: AppState = {
-  themeToggle: false,
   titleInput: "",
   taskInput: "",
   updatedTitleInput: "",
   updatedTaskInput: "",
-  todos: [],
+  todos: loadTodos(),
   selectedTodo: null,
-  selectedTab: [0],
+  selectedTab: loadSelectedTab(),
   updatePopupOpen: false,
   showUpdatePopupError: "",
 };
 
 export type AppAction =
-  | { type: "themeToggle" }
   | { type: "titleInput"; payload: string }
   | { type: "taskInput"; payload: string }
   | { type: "updatedTitleInput"; payload: string }
@@ -40,7 +44,7 @@ export type AppAction =
       payload: { id: string; newText: string; newTask: string };
     }
   | { type: "markTodo"; payload: { id: string; newCompleted: boolean } }
-  | { type: "todosClear" }
+  | { type: "todosClear"; payload: boolean }
   | { type: "selectedTab"; payload: number }
   | { type: "updatePopupOpen"; payload: boolean }
   | { type: "showUpdatePopupError"; payload: string }
@@ -48,8 +52,6 @@ export type AppAction =
 
 const appReducer = (state: AppState, action: AppAction) => {
   switch (action.type) {
-    case "themeToggle":
-      return { ...state, themeToggle: !state.themeToggle };
     case "titleInput":
       return { ...state, titleInput: action.payload };
     case "taskInput":
@@ -61,48 +63,59 @@ const appReducer = (state: AppState, action: AppAction) => {
     case "setTodos":
       return { ...state, todos: action.payload };
     case "todos":
-      return { ...state, todos: [action.payload, ...state.todos] };
-    case "removeTodos":
-      return {
-        ...state,
-        todos: state.todos.filter((todo) => todo.id !== action.payload),
-      };
+      const addTodos = [action.payload, ...state.todos];
+      saveTodos(addTodos);
+      return { ...state, todos: addTodos };
+    case "removeTodos": {
+      const removeTodos = state.todos.filter(
+        (todo) => todo.id !== action.payload
+      );
+      saveTodos(removeTodos);
+      return { ...state, todos: removeTodos };
+    }
     case "selectedTodo":
       return {
         ...state,
         selectedTodo:
           state.todos.find((todo) => todo.id === action.payload) || null,
       };
-    case "updateTodo":
-      return {
-        ...state,
-        todos: state.todos.map((todo) =>
-          todo.id === action.payload.id
-            ? {
-                ...todo,
-                text: action.payload.newText,
-                task: action.payload.newTask,
-              }
-            : todo
-        ),
-      };
-    case "markTodo":
-      return {
-        ...state,
-        todos: state.todos.map((todo) =>
-          todo.id === action.payload.id
-            ? { ...todo, completed: action.payload.newCompleted }
-            : todo
-        ),
-      };
+    case "updateTodo": {
+      const updatedTodos = state.todos.map((todo) =>
+        todo.id === action.payload.id
+          ? {
+              ...todo,
+              text: action.payload.newText,
+              task: action.payload.newTask,
+            }
+          : todo
+      );
+      saveTodos(updatedTodos);
+      return { ...state, todos: updatedTodos };
+    }
+    case "markTodo": {
+      const updatedTodos = state.todos.map((todo) =>
+        todo.id === action.payload.id
+          ? { ...todo, completed: action.payload.newCompleted }
+          : todo
+      );
+      saveTodos(updatedTodos);
+      return { ...state, todos: updatedTodos };
+    }
     case "selectedTab":
-      return { ...state, selectedTab: [action.payload] };
+      const updatedTab = [action.payload];
+      saveSelectedTab(updatedTab);
+      return { ...state, selectedTab: updatedTab };
     case "updatePopupOpen":
       return { ...state, updatePopupOpen: action.payload };
     case "showUpdatePopupError":
       return { ...state, showUpdatePopupError: action.payload };
-    case "todosClear":
-      return { ...state, todos: [] };
+    case "todosClear": {
+      const updatedTodos = clearTodos(action.payload, state.todos);
+      return {
+        ...state,
+        todos: updatedTodos,
+      };
+    }
     default:
       return state;
   }

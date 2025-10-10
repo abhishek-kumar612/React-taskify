@@ -8,6 +8,7 @@ import { UpdatePopup } from "../widgets/UpdatePopup";
 import { addTodo } from "../utils/TodoAction";
 import TodoItem from "../widgets/TodoItem";
 import { useTheme } from "../context/ThemeContext";
+import { confirmAllPopup } from "../widgets/ConfirmAllPopup";
 
 const Home = () => {
   const { theme, toggleTheme } = useTheme();
@@ -44,12 +45,18 @@ const Home = () => {
       />
 
       {/* Theme toggle */}
-      <div
+      <motion.div
         onClick={toggleTheme}
-        className="fixed dark:bg-white dark:text-purple-500 top-3 right-5 flex justify-center items-center text-white w-12 h-12 rounded-lg shadow-lg cursor-pointer bg-purple-500 active:scale-90 transition duration-100"
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="fixed group dark:bg-white dark:text-purple-500 top-3 right-5 flex justify-center items-center text-white w-12 h-12 rounded-lg shadow-lg cursor-pointer bg-purple-500 active:scale-90 transition duration-100"
       >
-        {state.themeToggle ? <FaSun size={20} /> : <FaMoon size={20} />}
-      </div>
+        {theme === "dark" ? <FaSun size={20} /> : <FaMoon size={20} />}
+        <span className="absolute hidden sm:block right-full mr-3 px-4 py-2 text-sm text-white bg-gray-800 rounded scale-0 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition duration-200 pointer-events-none whitespace-nowrap">
+          Switch to {theme === "dark" ? "light mode" : "dark mode"}
+        </span>
+      </motion.div>
 
       {/* Main Section */}
       <motion.div
@@ -62,15 +69,15 @@ const Home = () => {
         </h1>
       </motion.div>
 
-      <main className="relative px-5 flex justify-evenly items-start flex-wrap mt-10">
-        <div className="w-full md:w-4/12 sticky top-0">
+      <main className="relative px-5 flex justify-evenly items-start flex-wrap my-10">
+        <div className="w-full md:w-4/12 sticky top-3">
           {/* Todo Add Form */}
           <motion.form
-            initial={{ opacity: 0, y: 50, scale: 0.8 }}
+            initial={{ opacity: 0, y: 50, scale: 0.5 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            transition={{ duration: 1, ease: "easeInOut" }}
             onSubmit={(e) => addTodo(e, state, dispatch, inputRef, taskRef)}
-            className="flex flex-col shadow-xl rounded-lg gap-3 w-full px-5 py-6 md:py-10 mt-5 z-10 dark:bg-gray-800 dark:shadow-gray-900"
+            className="flex flex-col shadow-xl rounded-lg gap-3 w-full px-5 py-6 md:py-10 z-10 dark:bg-gray-900"
           >
             <input
               placeholder="Title"
@@ -79,7 +86,7 @@ const Home = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 dispatch({ type: "titleInput", payload: e.target.value })
               }
-              className="border-2 border-gray-300 rounded-lg p-3 placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-200 dark:bg-gray-900 dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
+              className="border-2 border-gray-300 rounded-lg p-3 placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-purple-500 dark:bg-black dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
             />
             <textarea
               ref={taskRef}
@@ -89,11 +96,11 @@ const Home = () => {
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 dispatch({ type: "taskInput", payload: e.target.value })
               }
-              className="border-2 border-gray-300 rounded-lg p-3 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-200 dark:bg-gray-900 dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
+              className="border-2 border-gray-300 rounded-lg p-3 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:bg-black dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
             />
             <button
               type="submit"
-              className="bg-purple-500 mt-2 flex justify-center items-center gap-2 cursor-pointer shadow-lg text-white rounded-lg px-6 py-3 hover:bg-purple-600 duration-200 w-full transition active:scale-95 dark:bg-purple-600 dark:hover:bg-purple-700"
+              className="bg-purple-500 mt-2 flex justify-center items-center gap-2 cursor-pointer shadow-lg text-white rounded-lg px-6 py-3 hover:bg-purple-600 w-full active:scale-95 dark:bg-purple-600 dark:hover:bg-purple-700"
             >
               ADD TASK
               <FaPlusSquare />
@@ -104,23 +111,11 @@ const Home = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="w-full md:w-7/12 z-20"
+          transition={{ duration: 1, ease: "easeInOut" }}
+          className="w-full md:w-7/12 z-20 mt-5 sm:mt-0"
         >
-          {/* {state.todos.length > 0 ? (
-          <div className="flex justify-end items-cente  my-5">
-            <button
-              type="button"
-              className="bg-red-500 cursor-pointer text-white rounded-lg px-6 py-3 hover:bg-red-600 transition-colors duration-200 w-full sm:w-auto"
-              onClick={() => dispatch({ type: "todosClear" })}
-            >
-              CLEAR ALL
-            </button>
-          </div>
-        ) : null} */}
-
           {/* Tabs */}
-          <div className="border-b border-gray-400 mt-5 flex justify-center items-center sticky top-0 z-50 dark:border-gray-700 dark:bg-gray-900">
+          <div className="border-b border-gray-400 bg-white flex justify-center items-center sticky top-3 z-50 rounded-tl-lg rounded-tr-lg overflow-hidden dark:border-gray-700 dark:bg-gray-900">
             <ul className="relative w-full flex justify-center items-center flex-wrap text-center">
               <motion.span
                 className="absolute bottom-0 left-0 w-6/12 h-1 rounded-tl-lg rounded-tr-lg bg-purple-600 dark:bg-purple-500"
@@ -164,10 +159,13 @@ const Home = () => {
             </ul>
           </div>
 
-          <div className="flex justify-center items-center mt-10 dark:text-gray-200">
-            <h1 className="text-xl md:text-2xl font-mono text-center">
-              {state.selectedTab.includes(0) ? (
-                state.todos.filter((todo) => !todo.completed).length === 0 ? (
+          {((state.selectedTab.includes(0) &&
+            state.todos.filter((todo) => !todo.completed).length === 0) ||
+            (!state.selectedTab.includes(0) &&
+              state.todos.filter((todo) => todo.completed).length === 0)) && (
+            <div className="flex justify-center items-center mt-10 dark:text-gray-200">
+              <h1 className="text-xl md:text-2xl font-mono text-center">
+                {state.selectedTab.includes(0) ? (
                   <div className="flex justify-center items-center flex-col gap-2">
                     <span>Add your first task</span>
                     <button
@@ -178,17 +176,43 @@ const Home = () => {
                     </button>
                   </div>
                 ) : (
-                  ""
-                )
-              ) : state.todos.filter((todo) => todo.completed).length === 0 ? (
-                <span>No completed tasks yet</span>
-              ) : (
-                ""
-              )}
-            </h1>
-          </div>
+                  <span>No completed tasks yet</span>
+                )}
+              </h1>
+            </div>
+          )}
 
-          <div className="z-20">
+          {state.selectedTab.includes(1) &&
+          state.todos.filter((todo) => todo.completed).length > 0 ? (
+            <div className="flex justify-end items-center my-5">
+              <motion.button
+                onClick={() => {
+                  confirmAllPopup(theme, dispatch);
+                }}
+                initial={{ opacity: 0, x: -50, rotate: -20 }}
+                animate={{ opacity: 1, x: 0, rotate: 0 }}
+                exit={{ opacity: 0, x: -50, rotate: -20 }}
+                transition={{
+                  duration: 0.5,
+                }}
+                className="relative inline-block text-sm sm:text-base md:text-lg cursor-pointer group active:scale-90"
+              >
+                <span className="relative z-10 block px-3 py-2 sm:px-4 sm:py-2.5 md:px-5 md:py-3 overflow-hidden font-medium leading-tight text-gray-800 dark:text-gray-100 transition-colors duration-300 ease-out border-2 border-purple-500 dark:border-purple-100 rounded-lg group-hover:text-white dark:group-hover:text-gray-900">
+                  <span className="absolute inset-0 w-full h-full px-3 py-2 sm:px-4 sm:py-2.5 md:px-5 md:py-3 rounded-lg bg-gray-50 dark:bg-gray-800"></span>
+                  <span className="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-purple-500 dark:bg-gray-100 group-hover:-rotate-180 ease"></span>
+                  <span className="relative font-mono font-bold">
+                    DELETE ALL
+                  </span>
+                </span>
+                <span
+                  className="absolute bottom-0 right-0 w-full h-10 sm:h-11 md:h-12 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-purple-500 dark:bg-gray-100 rounded-lg group-hover:mb-0 group-hover:mr-0"
+                  data-rounded="rounded-lg"
+                ></span>
+              </motion.button>
+            </div>
+          ) : null}
+
+          <div className="z-20 mt-5">
             <AnimatePresence>
               {state.todos
                 .filter(

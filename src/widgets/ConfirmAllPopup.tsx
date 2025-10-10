@@ -1,16 +1,11 @@
 import type { Dispatch } from "react";
 import Swal from "sweetalert2";
 import type { AppAction } from "../store/AppState";
-import { removeTodo } from "../utils/TodoAction";
 
-const confirmPopup = (
-  theme: string,
-  dispatch: Dispatch<AppAction>,
-  id: string
-) => {
+const confirmAllPopup = (theme: string, dispatch: Dispatch<AppAction>) => {
   Swal.fire({
-    title: "Delete Task?",
-    text: "Once deleted, there's no Ctrl+Z! Are you sure you want to nuke this task?",
+    title: "Delete All Tasks?",
+    text: "This will permanently delete all tasks — no undo, no rollback. Proceed?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#6ab04c",
@@ -21,22 +16,22 @@ const confirmPopup = (
     showClass: {
       popup: `
       animate__animated
-      animate__flipInX
+      animate__jello
       animate__faster
     `,
     },
     hideClass: {
       popup: `
       animate__animated
-      animate__flipOutX
-      animate__fastter
+      animate__hinge
+      animate__fast
     `,
     },
   }).then((result) => {
     if (result.isConfirmed) {
-      removeTodo(dispatch, id);
+      dispatch({ type: "todosClear", payload: false });
     }
   });
 };
 
-export { confirmPopup };
+export { confirmAllPopup };
